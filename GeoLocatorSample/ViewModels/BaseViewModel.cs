@@ -24,7 +24,7 @@ namespace GeoLocatorSample
             OnPropertyChanged(propertyname);
         }
 
-        protected void OnPropertyChanged([CallerMemberName]string propertyName = "") =>
+        void OnPropertyChanged([CallerMemberName]string propertyName = "") =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
     }
