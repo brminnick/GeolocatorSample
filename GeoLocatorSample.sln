@@ -1,9 +1,9 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoLocatorSample.iOS", "iOS\GeoLocatorSample.iOS.csproj", "{BA2AF23D-AEB8-484F-AAAB-96089C54B14F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoLocatorSample.iOS", "GeoLocatorSample.iOS\GeoLocatorSample.iOS.csproj", "{BA2AF23D-AEB8-484F-AAAB-96089C54B14F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoLocatorSample.Droid", "Droid\GeoLocatorSample.Droid.csproj", "{68010016-B2C1-4630-BA3D-91E4E2CB91D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoLocatorSample.Droid", "GeoLocatorSample.Droid\GeoLocatorSample.Droid.csproj", "{68010016-B2C1-4630-BA3D-91E4E2CB91D6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoLocatorSample", "GeoLocatorSample\GeoLocatorSample.csproj", "{6FA879D0-BB97-4879-BE8E-28E84C7616F7}"
 EndProject
