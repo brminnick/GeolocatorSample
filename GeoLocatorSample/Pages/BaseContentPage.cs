@@ -2,22 +2,18 @@
 
 namespace GeoLocatorSample
 {
-    public abstract class BaseContentPage<TViewModel> : ContentPage where TViewModel : BaseViewModel, new()
-    {
-        #region Fields
-        TViewModel _viewModel;
-        #endregion
+	public abstract class BaseContentPage<TViewModel> : ContentPage where TViewModel : BaseViewModel, new()
+	{
+		#region Constructors
+		protected BaseContentPage()
+		{
+			BindingContext = ViewModel;
+			BackgroundColor = ColorConstants.PageBackgroundColor;
+		}
+		#endregion
 
-        #region Constructors
-        protected BaseContentPage()
-        {
-            BindingContext = ViewModel;
-            BackgroundColor = ColorConstants.PageBackgroundColor;
-        }
-        #endregion
-
-        #region Properties
-        protected TViewModel ViewModel => _viewModel ?? (_viewModel = new TViewModel());
-        #endregion
-    }
+		#region Properties
+		protected TViewModel ViewModel { get; } = new TViewModel();
+		#endregion
+	}
 }
