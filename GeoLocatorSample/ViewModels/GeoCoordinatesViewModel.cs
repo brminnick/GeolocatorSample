@@ -1,78 +1,72 @@
-﻿using Plugin.Geolocator;
-using System.Windows.Input;
-using Xamarin.Forms;
-using System;
+﻿using System;
 using System.Threading.Tasks;
-using Plugin.Geolocator.Abstractions;
+using System.Windows.Input;
+
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace GeoLocatorSample
 {
-    public class GeoCoordinatesViewModel : BaseViewModel
-    {
-        #region Fields
-        string _latLongText, _latLongAccuracyText, _altitudeText, _altitudeAccuracyText;
-        ICommand _startListeningForGeoloactionUpdatesCommand;
-        #endregion
+	public class GeoCoordinatesViewModel : BaseViewModel
+	{
 
-        #region Constructors
-        public GeoCoordinatesViewModel() => StartListeningForGeoloactionUpdatesCommand?.Execute(null);
-        #endregion
+		#region Fields
+		string _latLongText, _latLongAccuracyText, _altitudeText, _altitudeAccuracyText;
+		ICommand _startUpdatingLocationCommand;
+		#endregion
 
-        #region Properties
-        public string LatLongText
-        {
-            get => _latLongText;
-            set => SetProperty(ref _latLongText, value);
-        }
+		#region Properties
+		public ICommand StartUpdatingLocationCommand => _startUpdatingLocationCommand ?? (_startUpdatingLocationCommand = new Command(async () =>
+		{
+			bool isUpdatePositionSuccessful = false;
 
-        public string LatLongAccuracyText
-        {
-            get => _latLongAccuracyText;
-            set => SetProperty(ref _latLongAccuracyText, value);
-        }
+			do
+			{
+				isUpdatePositionSuccessful = await UpdatePosition().ConfigureAwait(false);
+				await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
+			} while (isUpdatePositionSuccessful);
+		}));
 
-        public string AltitudeText
-        {
-            get => _altitudeText;
-            set => SetProperty(ref _altitudeText, value);
-        }
+		public string LatLongText
+		{
+			get => _latLongText;
+			set => SetProperty(ref _latLongText, value);
+		}
 
-        public string AltitudeAccuracyText
-        {
-            get => _altitudeAccuracyText;
-            set => SetProperty(ref _altitudeAccuracyText, value);
-        }
+		public string LatLongAccuracyText
+		{
+			get => _latLongAccuracyText;
+			set => SetProperty(ref _latLongAccuracyText, value);
+		}
 
-        ICommand StartListeningForGeoloactionUpdatesCommand => _startListeningForGeoloactionUpdatesCommand ??
-            (_startListeningForGeoloactionUpdatesCommand = new Command(async () => await ExecuteStartListeningForGeoloactionUpdatesCommand()));
+		public string AltitudeText
+		{
+			get => _altitudeText;
+			set => SetProperty(ref _altitudeText, value);
+		}
 
-        bool IsGeolocationAvailable => CrossGeolocator.IsSupported
-                                        && CrossGeolocator.Current.IsGeolocationAvailable
-                                        && CrossGeolocator.Current.IsGeolocationEnabled;
-        #endregion
+		public string AltitudeAccuracyText
+		{
+			get => _altitudeAccuracyText;
+			set => SetProperty(ref _altitudeAccuracyText, value);
+		}
+		#endregion
 
-        #region Methods
-        Task ExecuteStartListeningForGeoloactionUpdatesCommand()
-        {
-            if (IsGeolocationAvailable)
-            {
-                CrossGeolocator.Current.PositionChanged += HandlePositionChanged;
-                return CrossGeolocator.Current.StartListeningAsync(TimeSpan.FromSeconds(1), 10);
-            }
+		#region Methods
+		async Task<bool> UpdatePosition()
+		{
+			var location = await GeolocationService.GetLocation().ConfigureAwait(false);
 
-            LatLongText = "Geolocation Unavailable";
-            return Task.CompletedTask;
-        }
+			if (location is null) 
+				return false;
 
-        void HandlePositionChanged(object sender, PositionEventArgs e)
-        {
-            AltitudeAccuracyText = $"{ConvertDoubleToString(e.Position.AltitudeAccuracy, 0)}m";
-            AltitudeText = $"{ConvertDoubleToString(e.Position.Altitude, 2)}m";
-            LatLongAccuracyText = $"{ConvertDoubleToString(e.Position.Accuracy, 0)}m";
-            LatLongText = $"{ConvertDoubleToString(e.Position.Latitude, 2)}, {ConvertDoubleToString(e.Position.Longitude, 2)}";
+			LatLongAccuracyText = $"{ConvertDoubleToString(location?.Accuracy, 0)}m";
+			LatLongText = $"{ConvertDoubleToString(location?.Latitude, 3)}, {ConvertDoubleToString(location?.Longitude, 3)}";
 
-            string ConvertDoubleToString(double number, int decimalPlaces) => number.ToString($"F{decimalPlaces}");
-        }
-        #endregion
-    }
+			return true;
+
+			string ConvertDoubleToString(double? number, int decimalPlaces) => number?.ToString($"F{decimalPlaces}") ?? "Unknown";
+		}
+		#endregion
+	}
 }
