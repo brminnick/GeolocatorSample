@@ -7,10 +7,12 @@
   <ItemGroup>
     <PackageReference Include="Xamarin.Essentials" Version="0.6.0-preview" />
     <PackageReference Include="Xamarin.Forms" Version="3.1.0.469394-pre1" />
+    <PackageReference Include="Plugin.Permissions" Version="2.2.1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Constants\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 </Project>

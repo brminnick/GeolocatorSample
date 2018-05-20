@@ -38,18 +38,37 @@ namespace GeoLocatorSample
 		{
 			base.OnAppearing();
 
-			ViewModel.GeolocationFailed += HandleGeolocationFailed;
+			GeolocationService.GeolocationFailed += HandleGeolocationFailed;
+			ViewModel?.StartUpdatingLocationCommand?.Execute(null);
 		}
 
 		protected override void OnDisappearing()
 		{
 			base.OnAppearing();
 
-			ViewModel.GeolocationFailed -= HandleGeolocationFailed;
+			GeolocationService.GeolocationFailed -= HandleGeolocationFailed;
 		}
 
-		void HandleGeolocationFailed(object sender, string message) =>
-			Device.BeginInvokeOnMainThread(async () => await DisplayAlert("Geolocation Failed", message, "OK"));
+		void HandleGeolocationFailed(object sender, Exception exception)
+		{
+			Device.BeginInvokeOnMainThread(async () =>
+			{
+				switch (exception)
+				{
+					case Exception javaLangException when javaLangException.Message.Contains("requestPermissions"):
+					case Xamarin.Essentials.PermissionException permissionException:
+						var shouldOpenSettings = await DisplayAlert("Geoloation Failed", "Geolocation Permission Disabled", "Open Settings", "Ignore");
+
+						if (shouldOpenSettings)
+							Plugin.Permissions.CrossPermissions.Current.OpenAppSettings();
+						break;
+
+					default:
+						await DisplayAlert("Geolocation Failed", exception.Message, "OK");
+						break;
+				}
+			});
+		}
 		#endregion
 
 		#region Classes

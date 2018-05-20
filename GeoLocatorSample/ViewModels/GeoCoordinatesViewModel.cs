@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 using Xamarin.Essentials;
@@ -8,20 +9,24 @@ namespace GeoLocatorSample
 {
 	public class GeoCoordinatesViewModel : BaseViewModel
 	{
+
 		#region Fields
 		string _latLongText, _latLongAccuracyText, _altitudeText, _altitudeAccuracyText;
-		ICommand _startListeningForGeoloactionUpdatesCommand;
-		#endregion
-
-		#region Constructors
-		public GeoCoordinatesViewModel() => Device.StartTimer(TimeSpan.FromSeconds(1), () => { UpdatePosition(); return true; });
-		#endregion
-
-		#region Events
-		public event EventHandler<string> GeolocationFailed;
+		ICommand _startUpdatingLocationCommand;
 		#endregion
 
 		#region Properties
+		public ICommand StartUpdatingLocationCommand => _startUpdatingLocationCommand ?? (_startUpdatingLocationCommand = new Command(async () =>
+		{
+			bool isUpdatePositionSuccessful = false;
+
+			do
+			{
+				isUpdatePositionSuccessful = await UpdatePosition().ConfigureAwait(false);
+				await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
+			} while (isUpdatePositionSuccessful);
+		}));
+
 		public string LatLongText
 		{
 			get => _latLongText;
@@ -48,33 +53,20 @@ namespace GeoLocatorSample
 		#endregion
 
 		#region Methods
-		async void UpdatePosition()
+		async Task<bool> UpdatePosition()
 		{
-			try
-			{
-				var request = new GeolocationRequest(GeolocationAccuracy.Best);
-				var location = await Geolocation.GetLocationAsync(request).ConfigureAwait(false);
+			var location = await GeolocationService.GetLocation().ConfigureAwait(false);
 
-				LatLongAccuracyText = $"{ConvertDoubleToString(location.Accuracy, 0)}m";
-				LatLongText = $"{ConvertDoubleToString(location.Latitude, 3)}, {ConvertDoubleToString(location.Longitude, 3)}";
-			}
-			catch (FeatureNotSupportedException e)
-			{
-				OnGeolocationFailed(e.Message);
-			}
-			catch (PermissionException e)
-			{
-				OnGeolocationFailed(e.Message);
-			}
-			catch (Exception e)
-			{
-				OnGeolocationFailed(e.Message);
-			}
+			if (location is null) 
+				return false;
 
-			string ConvertDoubleToString(double? number, int decimalPlaces) => (number ?? 0).ToString($"F{decimalPlaces}");
+			LatLongAccuracyText = $"{ConvertDoubleToString(location?.Accuracy, 0)}m";
+			LatLongText = $"{ConvertDoubleToString(location?.Latitude, 3)}, {ConvertDoubleToString(location?.Longitude, 3)}";
+
+			return true;
+
+			string ConvertDoubleToString(double? number, int decimalPlaces) => number?.ToString($"F{decimalPlaces}") ?? "Unknown";
 		}
-
-		void OnGeolocationFailed(string message) => GeolocationFailed?.Invoke(this, message);
 		#endregion
 	}
 }
