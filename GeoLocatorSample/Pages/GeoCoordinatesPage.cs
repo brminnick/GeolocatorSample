@@ -18,18 +18,25 @@ namespace GeoLocatorSample
 			var latLongAccruacyValueLabel = new CenteredTextLabel();
 			latLongAccruacyValueLabel.SetBinding(Label.TextProperty, nameof(ViewModel.LatLongAccuracyText));
 
-			Content = new StackLayout
-			{
-				Spacing = 2,
-				HorizontalOptions = LayoutOptions.Center,
-				VerticalOptions = LayoutOptions.Center,
-				Children = {
-					currentLocationTitleLabel,
-					currentLocationValueLabel,
-					latLongAccuracyTitleLabel,
-					latLongAccruacyValueLabel
-				}
-			};
+            var altitudeTitleLabel = new TitleLabel { Text = "Altitude" };
+
+            var altitudeValueLabel = new CenteredTextLabel();
+            altitudeValueLabel.SetBinding(Label.TextProperty, nameof(ViewModel.AltitudeText));
+
+            Content = new StackLayout
+            {
+                Spacing = 2,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center,
+                Children = {
+                    currentLocationTitleLabel,
+                    currentLocationValueLabel,
+                    latLongAccuracyTitleLabel,
+                    latLongAccruacyValueLabel,
+                    altitudeTitleLabel,
+                    altitudeValueLabel
+                }
+            };
 		}
 		#endregion
 
