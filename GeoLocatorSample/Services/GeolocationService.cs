@@ -31,7 +31,7 @@ namespace GeoLocatorSample
 			catch (Exception e)
 			{
 				OnGeolocationFailed(e);
-				throw
+                throw;
 			}
 		}
 
