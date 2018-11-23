@@ -2,8 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-using Xamarin.Essentials;
-using Xamarin.Forms;
+using AsyncAwaitBestPractices.MVVM;
 
 namespace GeoLocatorSample
 {
@@ -16,16 +15,8 @@ namespace GeoLocatorSample
         #endregion
 
         #region Properties
-        public ICommand StartUpdatingLocationCommand => _startUpdatingLocationCommand ?? (_startUpdatingLocationCommand = new Command(async () =>
-        {
-            bool isUpdatePositionSuccessful = false;
-
-            do
-            {
-                isUpdatePositionSuccessful = await UpdatePosition().ConfigureAwait(false);
-                await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
-            } while (isUpdatePositionSuccessful);
-        }));
+        public ICommand StartUpdatingLocationCommand => _startUpdatingLocationCommand ??
+            (_startUpdatingLocationCommand = new AsyncCommand(StartUpdatingLocation, false));
 
         public string LatLongText
         {
@@ -71,6 +62,17 @@ namespace GeoLocatorSample
             }
 
             string ConvertDoubleToString(double? number, int decimalPlaces) => number?.ToString($"F{decimalPlaces}") ?? "Unknown";
+        }
+
+        async Task StartUpdatingLocation()
+        {
+            bool isUpdatePositionSuccessful = false;
+
+            do
+            {
+                isUpdatePositionSuccessful = await UpdatePosition().ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
+            } while (isUpdatePositionSuccessful);
         }
         #endregion
     }

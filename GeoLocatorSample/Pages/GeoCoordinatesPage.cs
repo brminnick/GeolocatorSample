@@ -66,8 +66,8 @@ namespace GeoLocatorSample
 					case Xamarin.Essentials.PermissionException permissionException:
 						var shouldOpenSettings = await DisplayAlert("Geoloation Failed", "Geolocation Permission Disabled", "Open Settings", "Ignore");
 
-						if (shouldOpenSettings)
-							Plugin.Permissions.CrossPermissions.Current.OpenAppSettings();
+                        if (shouldOpenSettings)
+                            Xamarin.Essentials.AppInfo.OpenSettings();
 						break;
 
 					default:
