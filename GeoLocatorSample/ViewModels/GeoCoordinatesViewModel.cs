@@ -2,13 +2,13 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
 
 namespace GeoLocatorSample
 {
     public class GeoCoordinatesViewModel : BaseViewModel
     {
-
         #region Fields
         string _latLongText, _latLongAccuracyText, _altitudeText, _altitudeAccuracyText;
         ICommand _startUpdatingLocationCommand;
@@ -16,7 +16,7 @@ namespace GeoLocatorSample
 
         #region Properties
         public ICommand StartUpdatingLocationCommand => _startUpdatingLocationCommand ??
-            (_startUpdatingLocationCommand = new AsyncCommand(StartUpdatingLocation, false));
+            (_startUpdatingLocationCommand = new AsyncCommand(StartUpdatingLocation, continueOnCapturedContext: false));
 
         public string LatLongText
         {

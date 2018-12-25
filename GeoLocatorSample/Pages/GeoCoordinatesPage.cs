@@ -3,20 +3,20 @@ using Xamarin.Forms;
 
 namespace GeoLocatorSample
 {
-	public class GeoCoordinatesPage : BaseContentPage<GeoCoordinatesViewModel>
-	{
-		#region Constructors
-		public GeoCoordinatesPage()
-		{
-			var currentLocationTitleLabel = new TitleLabel { Text = "Lat/Long" };
+    public class GeoCoordinatesPage : BaseContentPage<GeoCoordinatesViewModel>
+    {
+        #region Constructors
+        public GeoCoordinatesPage()
+        {
+            var currentLocationTitleLabel = new TitleLabel { Text = "Lat/Long" };
 
-			var currentLocationValueLabel = new CenteredTextLabel();
-			currentLocationValueLabel.SetBinding(Label.TextProperty, nameof(ViewModel.LatLongText));
+            var currentLocationValueLabel = new CenteredTextLabel();
+            currentLocationValueLabel.SetBinding(Label.TextProperty, nameof(ViewModel.LatLongText));
 
-			var latLongAccuracyTitleLabel = new TitleLabel { Text = "Lat/Long Accuracy" };
+            var latLongAccuracyTitleLabel = new TitleLabel { Text = "Lat/Long Accuracy" };
 
-			var latLongAccruacyValueLabel = new CenteredTextLabel();
-			latLongAccruacyValueLabel.SetBinding(Label.TextProperty, nameof(ViewModel.LatLongAccuracyText));
+            var latLongAccruacyValueLabel = new CenteredTextLabel();
+            latLongAccruacyValueLabel.SetBinding(Label.TextProperty, nameof(ViewModel.LatLongAccuracyText));
 
             var altitudeTitleLabel = new TitleLabel { Text = "Altitude" };
 
@@ -37,66 +37,62 @@ namespace GeoLocatorSample
                     altitudeValueLabel
                 }
             };
-		}
-		#endregion
 
-		#region Methods
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
+            GeolocationService.GeolocationFailed += HandleGeolocationFailed;
+        }
+        #endregion
 
-			GeolocationService.GeolocationFailed += HandleGeolocationFailed;
-			ViewModel?.StartUpdatingLocationCommand?.Execute(null);
-		}
+        #region Methods
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
 
-		protected override void OnDisappearing()
-		{
-			base.OnAppearing();
+            ViewModel.StartUpdatingLocationCommand.Execute(null);
+        }
 
-			GeolocationService.GeolocationFailed -= HandleGeolocationFailed;
-		}
+        void HandleGeolocationFailed(object sender, Exception exception)
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                switch (exception)
+                {
+                    default:
+                    case Xamarin.Essentials.PermissionException permissionException when permissionException.Message.ToLower().Contains("main thread"):
+                        await DisplayAlert("Geolocation Failed", exception.Message, "OK");
+                        break;
 
-		void HandleGeolocationFailed(object sender, Exception exception)
-		{
-			Device.BeginInvokeOnMainThread(async () =>
-			{
-				switch (exception)
-				{
-					case Exception javaLangException when javaLangException.Message.Contains("requestPermissions"):
-					case Xamarin.Essentials.PermissionException permissionException:
-						var shouldOpenSettings = await DisplayAlert("Geoloation Failed", "Geolocation Permission Disabled", "Open Settings", "Ignore");
+                    case Exception javaLangException when javaLangException.Message.Contains("requestPermissions"):
+                    case Xamarin.Essentials.PermissionException permissionException:
+                        var shouldOpenSettings = await DisplayAlert("Geoloation Failed", "Geolocation Permission Disabled", "Open Settings", "Ignore");
 
                         if (shouldOpenSettings)
-                            Xamarin.Essentials.AppInfo.OpenSettings();
-						break;
+                            Xamarin.Essentials.AppInfo.ShowSettingsUI();
+                        break;
 
-					default:
-						await DisplayAlert("Geolocation Failed", exception.Message, "OK");
-						break;
-				}
-			});
-		}
-		#endregion
+                }
+            });
+        }
+        #endregion
 
-		#region Classes
-		class TitleLabel : CenteredTextLabel
-		{
-			public TitleLabel()
-			{
-				TextColor = ColorConstants.TitleTextColor;
-				FontAttributes = FontAttributes.Bold;
-				Margin = new Thickness(0, 15, 0, 0);
-			}
-		}
+        #region Classes
+        class TitleLabel : CenteredTextLabel
+        {
+            public TitleLabel()
+            {
+                TextColor = ColorConstants.TitleTextColor;
+                FontAttributes = FontAttributes.Bold;
+                Margin = new Thickness(0, 15, 0, 0);
+            }
+        }
 
-		class CenteredTextLabel : Label
-		{
-			public CenteredTextLabel()
-			{
-				TextColor = ColorConstants.TextColor;
-				HorizontalTextAlignment = TextAlignment.Center;
-			}
-		}
-		#endregion
-	}
+        class CenteredTextLabel : Label
+        {
+            public CenteredTextLabel()
+            {
+                TextColor = ColorConstants.TextColor;
+                HorizontalTextAlignment = TextAlignment.Center;
+            }
+        }
+        #endregion
+    }
 }

@@ -87,13 +87,13 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="AsyncAwaitBestPractices">
-      <HintPath>..\packages\AsyncAwaitBestPractices.0.9.0\lib\netstandard\AsyncAwaitBestPractices.dll</HintPath>
+      <HintPath>..\packages\AsyncAwaitBestPractices.2.0.0\lib\netstandard\AsyncAwaitBestPractices.dll</HintPath>
     </Reference>
     <Reference Include="AsyncAwaitBestPractices.MVVM">
-      <HintPath>..\packages\AsyncAwaitBestPractices.MVVM.0.9.0\lib\netstandard\AsyncAwaitBestPractices.MVVM.dll</HintPath>
+      <HintPath>..\packages\AsyncAwaitBestPractices.MVVM.2.0.0\lib\netstandard\AsyncAwaitBestPractices.MVVM.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Essentials">
-      <HintPath>..\packages\Xamarin.Essentials.0.11.0-preview\lib\xamarinios10\Xamarin.Essentials.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Essentials.1.0.0\lib\xamarinios10\Xamarin.Essentials.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Core">
       <HintPath>..\packages\Xamarin.Forms.3.4.0.1008975\lib\Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>

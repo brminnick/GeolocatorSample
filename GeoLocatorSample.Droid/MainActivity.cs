@@ -20,9 +20,10 @@ namespace GeoLocatorSample.Droid
 
             base.OnCreate(savedInstanceState);
 
+            global::Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             global::Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
+            global::Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
 
             LoadApplication(new App());
         }
