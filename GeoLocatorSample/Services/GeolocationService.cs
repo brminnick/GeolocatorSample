@@ -37,7 +37,7 @@ namespace GeoLocatorSample
             }
             catch (PermissionException e) when (e.Message.ToLower().Contains("main thread"))
             {
-                var location = await GetLocationOnMainThread();
+                var location = await GetLocationOnMainThread().ConfigureAwait(false);
                 return location;
             }
             catch (Exception e)
