@@ -1,8 +1,4 @@
-# GeolocatorSample
-
-<h1 align=center>
-<img src="logo/horizontal.png" width=50%>
-</h1>
+![logo](logo/horizontal.png)
 
 iOS and Android app that gathers Geolocation data, created in Xamarin.Forms
 
