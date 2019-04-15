@@ -1,4 +1,4 @@
-![logo](logo/horizontal.png)
+![logo](Artwork/horizontal.png)
 
 iOS and Android app that gathers Geolocation data, created in Xamarin.Forms
 
