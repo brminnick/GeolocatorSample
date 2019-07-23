@@ -37,7 +37,7 @@ namespace GeoLocatorSample
             }
             catch (PermissionException e) when (e.Message.ToLower().Contains("main thread"))
             {
-                var location = await GetLocationOnMainThread().ConfigureAwait(false);
+                var location = await Device.InvokeOnMainThreadAsync(() => Geolocation.GetLocationAsync(GeolocationRequest)).ConfigureAwait(false);
                 return location;
             }
             catch (Exception e)
@@ -47,28 +47,7 @@ namespace GeoLocatorSample
             }
         }
 
-        static Task<Location> GetLocationOnMainThread()
-        {
-            var taskCompletionSource = new TaskCompletionSource<Location>();
-
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                try
-                {
-                    var location = await Geolocation.GetLocationAsync(GeolocationRequest).ConfigureAwait(false);
-                    taskCompletionSource.SetResult(location);
-                }
-                catch (Exception e)
-                {
-                    OnGeolocationFailed(e);
-                    taskCompletionSource.SetException(e);
-                }
-            });
-
-            return taskCompletionSource.Task;
-        }
-
-        static void OnGeolocationFailed(Exception exception) => _geolocationFailedWeakEventManager?.HandleEvent(null, exception, nameof(GeolocationFailed));
+        static void OnGeolocationFailed(Exception exception) => _geolocationFailedWeakEventManager.HandleEvent(null, exception, nameof(GeolocationFailed));
         #endregion
     }
 }

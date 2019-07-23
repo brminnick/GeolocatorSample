@@ -21,13 +21,14 @@
         <CodesignKey>iPhone Developer</CodesignKey>
         <MtouchDebug>true</MtouchDebug>
         <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
-        <MtouchFastDev>false</MtouchFastDev>
+        <MtouchFastDev>true</MtouchFastDev>
         <MtouchProfiling>true</MtouchProfiling>
         <IOSDebuggerPort>58979</IOSDebuggerPort>
         <MtouchLink>None</MtouchLink>
         <MtouchArch>x86_64</MtouchArch>
         <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
         <PlatformTarget>x86</PlatformTarget>
+        <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
         <DebugType>pdbonly</DebugType>
@@ -43,6 +44,7 @@
         <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
         <PlatformTarget>x86</PlatformTarget>
         <MtouchUseLlvm>true</MtouchUseLlvm>
+        <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
         <DebugType>pdbonly</DebugType>
@@ -51,12 +53,13 @@
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
         <CodesignKey>iPhone Developer</CodesignKey>
-        <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
         <MtouchLink>None</MtouchLink>
         <MtouchArch>x86_64</MtouchArch>
         <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
         <PlatformTarget>x86</PlatformTarget>
         <MtouchUseLlvm>true</MtouchUseLlvm>
+        <MtouchFloat32>true</MtouchFloat32>
+        <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
         <DebugSymbols>true</DebugSymbols>
@@ -70,7 +73,7 @@
         <DeviceSpecificBuild>true</DeviceSpecificBuild>
         <MtouchDebug>true</MtouchDebug>
         <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
-        <MtouchFastDev>false</MtouchFastDev>
+        <MtouchFastDev>true</MtouchFastDev>
         <MtouchProfiling>true</MtouchProfiling>
         <MtouchFloat32>true</MtouchFloat32>
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
@@ -79,6 +82,7 @@
         <MtouchArch>ARM64</MtouchArch>
         <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
         <PlatformTarget>x86</PlatformTarget>
+        <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="System" />
@@ -87,9 +91,9 @@
         <Reference Include="Xamarin.iOS" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xamarin.Forms" Version="3.6.0.344457" />
-        <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
-        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="2.1.1" />
+        <PackageReference Include="Xamarin.Forms" Version="4.2.0.608146-pre1" />
+        <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
+        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="3.0.0-pre4" />
     </ItemGroup>
     <ItemGroup>
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />

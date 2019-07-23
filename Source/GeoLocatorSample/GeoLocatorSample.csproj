@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="3.6.0.344457" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
-    <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="2.1.1" />
+    <PackageReference Include="Xamarin.Forms" Version="4.2.0.608146-pre1" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
+    <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="3.0.0-pre4" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\" />

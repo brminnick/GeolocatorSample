@@ -47,7 +47,7 @@ namespace GeoLocatorSample
         {
             base.OnAppearing();
 
-            ViewModel.StartUpdatingLocationCommand.Execute(null);
+            ViewModel.StartUpdatingLocationCommand?.Execute(null);
         }
 
         void HandleGeolocationFailed(object sender, Exception exception)
@@ -56,11 +56,6 @@ namespace GeoLocatorSample
             {
                 switch (exception)
                 {
-                    default:
-                    case Xamarin.Essentials.PermissionException permissionException when permissionException.Message.ToLower().Contains("main thread"):
-                        await DisplayAlert("Geolocation Failed", exception.Message, "OK");
-                        break;
-
                     case Exception javaLangException when javaLangException.Message.Contains("requestPermissions"):
                     case Xamarin.Essentials.PermissionException permissionException:
                         var shouldOpenSettings = await DisplayAlert("Geoloation Failed", "Geolocation Permission Disabled", "Open Settings", "Ignore");
@@ -69,6 +64,9 @@ namespace GeoLocatorSample
                             Xamarin.Essentials.AppInfo.ShowSettingsUI();
                         break;
 
+                    default:
+                        await DisplayAlert("Geolocation Failed", exception.Message, "OK");
+                        break;
                 }
             });
         }

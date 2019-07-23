@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
 
 namespace GeoLocatorSample
@@ -16,7 +15,7 @@ namespace GeoLocatorSample
 
         #region Properties
         public ICommand StartUpdatingLocationCommand => _startUpdatingLocationCommand ??
-            (_startUpdatingLocationCommand = new AsyncCommand(StartUpdatingLocation, continueOnCapturedContext: false));
+            (_startUpdatingLocationCommand = new AsyncCommand(StartUpdatingLocation));
 
         public string LatLongText
         {
@@ -56,17 +55,17 @@ namespace GeoLocatorSample
 
                 return true;
             }
-            catch (Exception)
+            catch
             {
                 return false;
             }
 
-            string ConvertDoubleToString(double? number, int decimalPlaces) => number?.ToString($"F{decimalPlaces}") ?? "Unknown";
+            string ConvertDoubleToString(in double? number, in int decimalPlaces) => number?.ToString($"F{decimalPlaces}") ?? "Unknown";
         }
 
         async Task StartUpdatingLocation()
         {
-            bool isUpdatePositionSuccessful = false;
+            bool isUpdatePositionSuccessful;
 
             do
             {
