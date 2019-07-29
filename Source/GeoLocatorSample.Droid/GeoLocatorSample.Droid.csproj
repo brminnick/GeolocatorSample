@@ -15,6 +15,7 @@
         <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
         <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
         <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
+        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
@@ -69,7 +70,7 @@
         <Reference Include="System.Numerics.Vectors" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xamarin.Forms" Version="4.2.0.608146-pre1" />
+        <PackageReference Include="Xamarin.Forms" Version="4.2.0.618605-pre2" />
         <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
         <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="3.0.0-pre4" />
         <PackageReference Include="Plugin.CurrentActivity">

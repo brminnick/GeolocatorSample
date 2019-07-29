@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.2.0.608146-pre1" />
+    <PackageReference Include="Xamarin.Forms" Version="4.2.0.618605-pre2" />
     <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
     <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="3.0.0-pre4" />
   </ItemGroup>

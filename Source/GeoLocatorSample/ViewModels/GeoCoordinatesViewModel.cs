@@ -49,9 +49,9 @@ namespace GeoLocatorSample
             {
                 var location = await GeolocationService.GetLocation().ConfigureAwait(false);
 
-                AltitudeText = $"{ConvertDoubleToString(location?.Altitude.Value, 2)}m";
-                LatLongAccuracyText = $"{ConvertDoubleToString(location?.Accuracy, 0)}m";
-                LatLongText = $"{ConvertDoubleToString(location?.Latitude, 3)}, {ConvertDoubleToString(location?.Longitude, 3)}";
+                AltitudeText = $"{convertDoubleToString(location?.Altitude, 2)}m";
+                LatLongAccuracyText = $"{convertDoubleToString(location?.Accuracy, 0)}m";
+                LatLongText = $"{convertDoubleToString(location?.Latitude, 3)}, {convertDoubleToString(location?.Longitude, 3)}";
 
                 return true;
             }
@@ -60,7 +60,7 @@ namespace GeoLocatorSample
                 return false;
             }
 
-            string ConvertDoubleToString(in double? number, in int decimalPlaces) => number?.ToString($"F{decimalPlaces}") ?? "Unknown";
+            string convertDoubleToString(in double? number, in int decimalPlaces) => number?.ToString($"F{decimalPlaces}") ?? "Unknown";
         }
 
         async Task StartUpdatingLocation()
