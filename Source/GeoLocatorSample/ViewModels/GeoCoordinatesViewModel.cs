@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using AsyncAwaitBestPractices.MVVM;
-using Xamarin.Forms;
 
 namespace GeoLocatorSample
 {
@@ -10,14 +9,14 @@ namespace GeoLocatorSample
     {
         bool _isPollingGeolocation;
 
-        AsyncCommand? _startUpdatingLocationCommand;
+        ICommand? _startUpdatingLocationCommand;
 
         string _latLongText = string.Empty,
             _latLongAccuracyText = string.Empty,
             _altitudeText = string.Empty,
             _altitudeAccuracyText = string.Empty;
 
-        public AsyncCommand StartUpdatingLocationCommand =>
+        public ICommand StartUpdatingLocationCommand =>
             _startUpdatingLocationCommand ??= new AsyncCommand(() => StartUpdatingLocation(TimeSpan.FromSeconds(1)), _ => !_isPollingGeolocation);
 
         public string LatLongText

@@ -1,5 +1,4 @@
 ﻿using System;
-using AsyncAwaitBestPractices;
 using Xamarin.Forms;
 
 namespace GeoLocatorSample
@@ -46,7 +45,7 @@ namespace GeoLocatorSample
             base.OnAppearing();
 
             if (ViewModel.StartUpdatingLocationCommand.CanExecute(null))
-                ViewModel.StartUpdatingLocationCommand.ExecuteAsync().SafeFireAndForget();
+                ViewModel.StartUpdatingLocationCommand.Execute(null);
         }
 
         void HandleGeolocationFailed(object sender, Exception exception)

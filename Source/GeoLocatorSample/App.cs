@@ -1,5 +1,4 @@
-﻿using AsyncAwaitBestPractices;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace GeoLocatorSample
 {
@@ -16,7 +15,7 @@ namespace GeoLocatorSample
             var geoCoordinatesViewModel = (GeoCoordinatesViewModel)_geoCoordinatesPage.BindingContext;
 
             if (geoCoordinatesViewModel.StartUpdatingLocationCommand.CanExecute(null))
-                geoCoordinatesViewModel.StartUpdatingLocationCommand.ExecuteAsync().SafeFireAndForget();
+                geoCoordinatesViewModel.StartUpdatingLocationCommand.Execute(null);
         }
     }
 }
