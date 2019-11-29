@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using AsyncAwaitBestPractices.MVVM;
 
 namespace GeoLocatorSample
@@ -9,14 +8,14 @@ namespace GeoLocatorSample
     {
         bool _isPollingGeolocation;
 
-        ICommand? _startUpdatingLocationCommand;
+        IAsyncCommand? _startUpdatingLocationCommand;
 
         string _latLongText = string.Empty,
             _latLongAccuracyText = string.Empty,
             _altitudeText = string.Empty,
             _altitudeAccuracyText = string.Empty;
 
-        public ICommand StartUpdatingLocationCommand =>
+        public IAsyncCommand StartUpdatingLocationCommand =>
             _startUpdatingLocationCommand ??= new AsyncCommand(() => StartUpdatingLocation(TimeSpan.FromSeconds(1)), _ => !_isPollingGeolocation);
 
         public string LatLongText
@@ -65,7 +64,7 @@ namespace GeoLocatorSample
 
         async Task StartUpdatingLocation(TimeSpan pollingTimeSpan)
         {
-            _isPollingGeolocation = true;
+            SetIsPollingGeolocation(true);
 
             bool isUpdatePositionSuccessful;
 
@@ -75,7 +74,16 @@ namespace GeoLocatorSample
                 await Task.Delay(pollingTimeSpan).ConfigureAwait(false);
             } while (isUpdatePositionSuccessful);
 
-            _isPollingGeolocation = false;
+            SetIsPollingGeolocation(false);
+        }
+
+        void SetIsPollingGeolocation(bool isPollingLocation)
+        {
+            if (isPollingLocation != _isPollingGeolocation)
+            {
+                _isPollingGeolocation = isPollingLocation;
+                StartUpdatingLocationCommand.RaiseCanExecuteChanged();
+            }
         }
     }
 }
