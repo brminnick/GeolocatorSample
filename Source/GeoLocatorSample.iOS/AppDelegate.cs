@@ -1,18 +1,39 @@
 ﻿using UIKit;
 using Foundation;
+using Comet.iOS;
 
 namespace GeoLocatorSample.iOS
 {
     [Register(nameof(AppDelegate))]
-    public class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+    public class AppDelegate : UIApplicationDelegate
     {
-        public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
+        // class-level declarations
+        public override UIWindow? Window
         {
-            global::Xamarin.Forms.Forms.Init();
+            get;
+            set;
+        }
 
-            LoadApplication(new App());
+        UIWindow? window;
 
-            return base.FinishedLaunching(uiApplication, launchOptions);
+        public override void FinishedLaunching(UIApplication application)
+        {
+            base.FinishedLaunching(application);
+        }
+
+        public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
+        {
+#if DEBUG
+            Comet.Reload.Init();
+#endif
+
+            window = new UIWindow
+            {
+                RootViewController = new GeoCoordinatesPage().ToViewController()
+            };
+            window.MakeKeyAndVisible();
+
+            return true;
         }
     }
 }

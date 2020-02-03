@@ -1,11 +1,12 @@
 ﻿using Android.OS;
 using Android.App;
 using Android.Content.PM;
+using Comet.Android;
 
 namespace GeoLocatorSample.Droid
 {
     [Activity(Label = "GeoLocatorSample.Droid", Icon = "@drawable/Icon", RoundIcon = "@drawable/Icon_Round", Theme = "@style/MyTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    public class MainActivity : CometActivity
     {
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
@@ -15,16 +16,14 @@ namespace GeoLocatorSample.Droid
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            TabLayoutResource = Resource.Layout.Tabbar;
-            ToolbarResource = Resource.Layout.Toolbar;
-
             base.OnCreate(savedInstanceState);
-
+#if DEBUG
+            global::Comet.Reload.Init();
+#endif
             global::Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             global::Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
 
-            LoadApplication(new App());
+            Page = new GeoCoordinatesPage();
         }
     }
 }

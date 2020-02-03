@@ -1,92 +1,58 @@
-﻿using System;
-using Xamarin.Forms;
+﻿using System.Threading.Tasks;
+using AsyncAwaitBestPractices;
+using Comet;
+using Xamarin.Essentials;
 
 namespace GeoLocatorSample
 {
-    public class GeoCoordinatesPage : BaseContentPage<GeoCoordinatesViewModel>
+    public class GeoCoordinatesPage : View
     {
-        public GeoCoordinatesPage()
+        [State]
+        readonly State<Location?> _locationState = new State<Location?>();
+
+        public GeoCoordinatesPage() => StartLocationServices().SafeFireAndForget();
+
+        [Body]
+        View body() => new VStack
         {
-            var currentLocationTitleLabel = new TitleLabel("Lat/Long");
+            new Text("Latitude"),
+            new Text(()=> $"{ConvertDoubleToString(_locationState.Value?.Latitude,2)}"),
+            new Text("Longitude"),
+            new Text(()=>$"{ConvertDoubleToString(_locationState.Value?.Longitude,2)}"),
+            new Text("Altitude"),
+            new Text(()=> $"{ConvertDoubleToString(_locationState.Value?.Altitude,3)}"),
+        };
 
-            var currentLocationValueLabel = new CenteredTextLabel();
-            currentLocationValueLabel.SetBinding(Label.TextProperty, nameof(GeoCoordinatesViewModel.LatLongText));
-
-            var latLongAccuracyTitleLabel = new TitleLabel("Lat/Long Accuracy");
-
-            var latLongAccruacyValueLabel = new CenteredTextLabel();
-            latLongAccruacyValueLabel.SetBinding(Label.TextProperty, nameof(GeoCoordinatesViewModel.LatLongAccuracyText));
-
-            var altitudeTitleLabel = new TitleLabel("Altitude");
-
-            var altitudeValueLabel = new CenteredTextLabel();
-            altitudeValueLabel.SetBinding(Label.TextProperty, nameof(GeoCoordinatesViewModel.AltitudeText));
-
-            Content = new StackLayout
+        async Task StartLocationServices()
+        {
+            while (true)
             {
-                Spacing = 2,
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.Center,
-                Children = {
-                    currentLocationTitleLabel,
-                    currentLocationValueLabel,
-                    latLongAccuracyTitleLabel,
-                    latLongAccruacyValueLabel,
-                    altitudeTitleLabel,
-                    altitudeValueLabel
-                }
-            };
+                _locationState.Value = await GeolocationService.GetLocation().ConfigureAwait(false);
 
-            GeolocationService.GeolocationFailed += HandleGeolocationFailed;
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            if (ViewModel.StartUpdatingLocationCommand.CanExecute(null))
-                ViewModel.StartUpdatingLocationCommand.Execute(null);
-        }
-
-        void HandleGeolocationFailed(object sender, Exception exception)
-        {
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                switch (exception)
-                {
-                    case Exception javaLangException when javaLangException.Message.Contains("requestPermissions"):
-                    case Xamarin.Essentials.PermissionException permissionException:
-                        var shouldOpenSettings = await DisplayAlert("Geoloation Failed", "Geolocation Permission Disabled", "Open Settings", "Ignore");
-
-                        if (shouldOpenSettings)
-                            Xamarin.Essentials.AppInfo.ShowSettingsUI();
-                        break;
-
-                    default:
-                        await DisplayAlert("Geolocation Failed", exception.Message, "OK");
-                        break;
-                }
-            });
-        }
-
-        class TitleLabel : CenteredTextLabel
-        {
-            public TitleLabel(in string text)
-            {
-                Text = text;
-                TextColor = ColorConstants.TitleTextColor;
-                FontAttributes = FontAttributes.Bold;
-                Margin = new Thickness(0, 15, 0, 0);
+                await Task.Delay(1000).ConfigureAwait(false);
             }
         }
 
-        class CenteredTextLabel : Label
-        {
-            public CenteredTextLabel()
-            {
-                TextColor = ColorConstants.TextColor;
-                HorizontalTextAlignment = TextAlignment.Center;
-            }
-        }
+        static string ConvertDoubleToString(in double? number, in int decimalPlaces) => $"{number?.ToString($"F{decimalPlaces}")}m" ?? "Unknown";
+
+        //class TitleLabel : CenteredTextLabel
+        //{
+        //    public TitleLabel(in string text)
+        //    {
+        //        Text = text;
+        //        TextColor = ColorConstants.TitleTextColor;
+        //        FontAttributes = FontAttributes.Bold;
+        //        Margin = new Thickness(0, 15, 0, 0);
+        //    }
+        //}
+
+        //class CenteredTextLabel : Label
+        //{
+        //    public CenteredTextLabel()
+        //    {
+        //        TextColor = ColorConstants.TextColor;
+        //        HorizontalTextAlignment = TextAlignment.Center;
+        //    }
+        //}
     }
 }

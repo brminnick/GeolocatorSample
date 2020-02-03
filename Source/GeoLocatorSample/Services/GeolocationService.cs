@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
 using Xamarin.Essentials;
-using Xamarin.Forms;
 
 namespace GeoLocatorSample
 {
@@ -28,7 +27,7 @@ namespace GeoLocatorSample
             }
             catch (PermissionException e) when (e.Message.ToLower().Contains("main thread"))
             {
-                var location = await Device.InvokeOnMainThreadAsync(() => Geolocation.GetLocationAsync(GeolocationRequest)).ConfigureAwait(false);
+                var location = await MainThread.InvokeOnMainThreadAsync(() => Geolocation.GetLocationAsync(GeolocationRequest)).ConfigureAwait(false);
                 return location;
             }
             catch (Exception e)
