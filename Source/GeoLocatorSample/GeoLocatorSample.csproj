@@ -13,7 +13,6 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Pages\" />
-        <Folder Include="ViewModels\" />
         <Folder Include="Constants\" />
         <Folder Include="Services\" />
     </ItemGroup>
