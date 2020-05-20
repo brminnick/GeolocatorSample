@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AsyncAwaitBestPractices.MVVM;
+using Xamarin.Essentials;
 
 namespace GeoLocatorSample
 {
@@ -64,7 +65,7 @@ namespace GeoLocatorSample
 
         async Task StartUpdatingLocation(TimeSpan pollingTimeSpan)
         {
-            SetIsPollingGeolocation(true);
+            await SetIsPollingGeolocation(true).ConfigureAwait(false);
 
             bool isUpdatePositionSuccessful;
 
@@ -74,15 +75,15 @@ namespace GeoLocatorSample
                 await Task.Delay(pollingTimeSpan).ConfigureAwait(false);
             } while (isUpdatePositionSuccessful);
 
-            SetIsPollingGeolocation(false);
+            await SetIsPollingGeolocation(false).ConfigureAwait(false);
         }
 
-        void SetIsPollingGeolocation(bool isPollingLocation)
+        async ValueTask SetIsPollingGeolocation(bool isPollingLocation)
         {
             if (isPollingLocation != _isPollingGeolocation)
             {
                 _isPollingGeolocation = isPollingLocation;
-                StartUpdatingLocationCommand.RaiseCanExecuteChanged();
+                await MainThread.InvokeOnMainThreadAsync(StartUpdatingLocationCommand.RaiseCanExecuteChanged).ConfigureAwait(false);
             }
         }
     }

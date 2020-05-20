@@ -1,5 +1,7 @@
 ﻿using System;
+using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.Markup;
 
 namespace GeoLocatorSample
 {
@@ -7,33 +9,21 @@ namespace GeoLocatorSample
     {
         public GeoCoordinatesPage()
         {
-            var currentLocationTitleLabel = new TitleLabel("Lat/Long");
-
-            var currentLocationValueLabel = new CenteredTextLabel();
-            currentLocationValueLabel.SetBinding(Label.TextProperty, nameof(GeoCoordinatesViewModel.LatLongText));
-
-            var latLongAccuracyTitleLabel = new TitleLabel("Lat/Long Accuracy");
-
-            var latLongAccruacyValueLabel = new CenteredTextLabel();
-            latLongAccruacyValueLabel.SetBinding(Label.TextProperty, nameof(GeoCoordinatesViewModel.LatLongAccuracyText));
-
-            var altitudeTitleLabel = new TitleLabel("Altitude");
-
-            var altitudeValueLabel = new CenteredTextLabel();
-            altitudeValueLabel.SetBinding(Label.TextProperty, nameof(GeoCoordinatesViewModel.AltitudeText));
-
             Content = new StackLayout
             {
                 Spacing = 2,
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center,
                 Children = {
-                    currentLocationTitleLabel,
-                    currentLocationValueLabel,
-                    latLongAccuracyTitleLabel,
-                    latLongAccruacyValueLabel,
-                    altitudeTitleLabel,
-                    altitudeValueLabel
+                    new TitleLabel("Lat/Long"),
+                    new CenteredTextLabel()
+                        .Bind(Label.TextProperty, nameof(GeoCoordinatesViewModel.LatLongText)),
+                    new TitleLabel("Lat/Long Accuracy"),
+                    new CenteredTextLabel()
+                        .Bind(Label.TextProperty, nameof(GeoCoordinatesViewModel.LatLongAccuracyText)),
+                    new TitleLabel("Altitude"),
+                    new CenteredTextLabel()
+                        .Bind(Label.TextProperty, nameof(GeoCoordinatesViewModel.AltitudeText))
                 }
             };
 
@@ -50,16 +40,16 @@ namespace GeoLocatorSample
 
         void HandleGeolocationFailed(object sender, Exception exception)
         {
-            Device.BeginInvokeOnMainThread(async () =>
+            MainThread.BeginInvokeOnMainThread(async () =>
             {
                 switch (exception)
                 {
                     case Exception javaLangException when javaLangException.Message.Contains("requestPermissions"):
-                    case Xamarin.Essentials.PermissionException permissionException:
+                    case PermissionException permissionException:
                         var shouldOpenSettings = await DisplayAlert("Geoloation Failed", "Geolocation Permission Disabled", "Open Settings", "Ignore");
 
                         if (shouldOpenSettings)
-                            Xamarin.Essentials.AppInfo.ShowSettingsUI();
+                            AppInfo.ShowSettingsUI();
                         break;
 
                     default:

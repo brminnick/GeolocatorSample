@@ -4,9 +4,14 @@ namespace GeoLocatorSample
 {
     public class App : Application
     {
-        readonly GeoCoordinatesPage _geoCoordinatesPage = new GeoCoordinatesPage();
+        readonly GeoCoordinatesPage _geoCoordinatesPage;
 
-        public App() => MainPage = _geoCoordinatesPage;
+        public App()
+        {
+            Device.SetFlags(new[] { "Markup_Experimental" });
+
+            MainPage = _geoCoordinatesPage = new GeoCoordinatesPage();
+        }
 
         protected override void OnResume()
         {
