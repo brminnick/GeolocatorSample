@@ -21,7 +21,6 @@ namespace GeoLocatorSample.Droid
             global::Comet.Reload.Init();
 #endif
             global::Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            global::Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
 
             Page = new GeoCoordinatesPage();
         }

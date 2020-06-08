@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable IDE0051 // Remove unused private members
+using System;
 using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
 using Comet;
@@ -12,9 +13,8 @@ namespace GeoLocatorSample
 
         public GeoCoordinatesPage() => StartLocationServices().SafeFireAndForget();
 
-        static string ConvertDoubleToString(in double? number, in int decimalPlaces) => $"{number?.ToString($"F{decimalPlaces}")}" ?? "Unknown";
+        static string ConvertDoubleToString(in double? number, in int decimalPlaces) => number?.ToString($"F{decimalPlaces}") ?? "Unknown";
 
-#pragma warning disable IDE0051 // Remove unused private members
         [Body]
         View GenerateBody() => new VStack(HorizontalAlignment.Center, 2)
         {
@@ -25,7 +25,6 @@ namespace GeoLocatorSample
             new TitleText("Accuracy"),
             new LabelText(() => $"{ConvertDoubleToString(_locationState.Value?.Accuracy, 0)}m"),
         };
-#pragma warning restore IDE0051 // Remove unused private members
 
         async Task StartLocationServices()
         {
@@ -41,10 +40,11 @@ namespace GeoLocatorSample
         {
             public TitleText(Binding<string>? value = null) : base(value)
             {
-                this.Color(ColorConstants.TitleTextColor);
+                this.FillHorizontal();
                 this.FontWeight(Weight.Bold);
-                this.TextAlignment(TextAlignment.Center);
                 this.Margin(new Thickness(0, 15, 0, 0));
+                this.TextAlignment(TextAlignment.Center);
+                this.Color(ColorConstants.TitleTextColor);
             }
         }
 
@@ -52,9 +52,12 @@ namespace GeoLocatorSample
         {
             public LabelText(Func<string> value) : base(value)
             {
+                this.FillHorizontal();
                 this.Color(ColorConstants.TextColor);
                 this.TextAlignment(TextAlignment.Center);
             }
         }
     }
 }
+
+#pragma warning restore IDE0051 // Remove unused private members
