@@ -38,7 +38,7 @@ namespace GeoLocatorSample
 
         class TitleText : Text
         {
-            public TitleText(Binding<string>? value = null) : base(value)
+            public TitleText(Binding<string> value) : base(value)
             {
                 this.FillHorizontal();
                 this.FontWeight(Weight.Bold);
