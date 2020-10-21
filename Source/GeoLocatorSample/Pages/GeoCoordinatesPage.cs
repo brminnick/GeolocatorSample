@@ -9,11 +9,11 @@ namespace GeoLocatorSample
 {
     public class GeoCoordinatesPage : View
     {
-        readonly State<Location?> _locationState = new State<Location?>();
+        readonly State<Location> _locationState = new State<Location>(new Location());
 
         public GeoCoordinatesPage() => StartLocationServices().SafeFireAndForget();
 
-        static string ConvertDoubleToString(in double? number, in int decimalPlaces) => number?.ToString($"F{decimalPlaces}") ?? "Unknown";
+        static string ConvertDoubleToString(in double? number, in int decimalPlaces, in string appendString = "") => number is null ? "Unknown" : number.Value.ToString($"F{decimalPlaces}") + appendString;
 
         [Body]
         View GenerateBody() => new VStack(HorizontalAlignment.Center, 2)
@@ -21,10 +21,10 @@ namespace GeoLocatorSample
             new TitleText("Lat/Long"),
             new LabelText(() => $"{ConvertDoubleToString(_locationState.Value?.Latitude, 3)}, {ConvertDoubleToString(_locationState.Value?.Longitude, 3)}"),
             new TitleText("Altitude"),
-            new LabelText(() => $"{ConvertDoubleToString(_locationState.Value?.Altitude, 2)}m"),
+            new LabelText(() => $"{ConvertDoubleToString(_locationState.Value?.Altitude, 2,"m")}"),
             new TitleText("Accuracy"),
-            new LabelText(() => $"{ConvertDoubleToString(_locationState.Value?.Accuracy, 0)}m"),
-        };
+            new LabelText(() => $"{ConvertDoubleToString(_locationState.Value?.Accuracy, 0,"m")}"),
+        }.FillHorizontal();
 
         async Task StartLocationServices()
         {
