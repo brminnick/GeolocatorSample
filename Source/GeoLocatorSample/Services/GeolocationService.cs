@@ -38,6 +38,6 @@ namespace GeoLocatorSample
             }
         }
 
-        static void OnGeolocationFailed(Exception exception) => _geolocationFailedWeakEventManager.HandleEvent(null, exception, nameof(GeolocationFailed));
+        static void OnGeolocationFailed(Exception exception) => _geolocationFailedWeakEventManager.RaiseEvent(null, exception, nameof(GeolocationFailed));
     }
 }

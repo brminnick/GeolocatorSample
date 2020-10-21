@@ -14,13 +14,18 @@ namespace GeoLocatorSample
                 Spacing = 2,
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center,
-                Children = {
+                Children =
+                {
                     new TitleLabel("Lat/Long"),
+
                     new CenteredTextLabel()
                         .Bind(Label.TextProperty, nameof(GeoCoordinatesViewModel.LatLongText)),
+
                     new TitleLabel("Lat/Long Accuracy"),
+
                     new CenteredTextLabel()
                         .Bind(Label.TextProperty, nameof(GeoCoordinatesViewModel.LatLongAccuracyText)),
+
                     new TitleLabel("Altitude"),
                     new CenteredTextLabel()
                         .Bind(Label.TextProperty, nameof(GeoCoordinatesViewModel.AltitudeText))

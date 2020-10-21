@@ -60,7 +60,8 @@ namespace GeoLocatorSample
                 return false;
             }
 
-            static string convertDoubleToString(in double? number, in int decimalPlaces) => number?.ToString($"F{decimalPlaces}") ?? "Unknown";
+            static string convertDoubleToString(in double? number, in int decimalPlaces, in string appendString = "") =>
+                number is null ? "Unknown" : number.Value.ToString($"F{decimalPlaces}") + appendString;
         }
 
         async Task StartUpdatingLocation(TimeSpan pollingTimeSpan)
