@@ -1,7 +1,7 @@
 ﻿using System;
+using Xamarin.CommunityToolkit.Markup;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.Markup;
 
 namespace GeoLocatorSample
 {
@@ -27,6 +27,7 @@ namespace GeoLocatorSample
                         .Bind(Label.TextProperty, nameof(GeoCoordinatesViewModel.LatLongAccuracyText)),
 
                     new TitleLabel("Altitude"),
+
                     new CenteredTextLabel()
                         .Bind(Label.TextProperty, nameof(GeoCoordinatesViewModel.AltitudeText))
                 }
