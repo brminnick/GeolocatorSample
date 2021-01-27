@@ -94,8 +94,8 @@
         <Reference Include="Xamarin.iOS" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xamarin.Essentials" Version="1.6.0-pre2" />
-        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="5.0.0-pre2" />
+        <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+        <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="5.0.2" />
         <PackageReference Include="Clancey.Comet.Reload" Version="0.0.13-alpha" />
         <PackageReference Include="Clancey.Comet" Version="0.2.273-beta" />
     </ItemGroup>
