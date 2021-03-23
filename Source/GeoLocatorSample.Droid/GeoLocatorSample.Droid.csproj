@@ -8,7 +8,7 @@
         <OutputType>Library</OutputType>
         <RootNamespace>GeoLocatorSample.Droid</RootNamespace>
         <AssemblyName>GeoLocatorSample.Droid</AssemblyName>
-        <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
+        <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
         <AndroidApplication>True</AndroidApplication>
         <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
         <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -33,6 +33,8 @@
         <AndroidUseAapt2>true</AndroidUseAapt2>
         <AndroidTlsProvider>btls</AndroidTlsProvider>
         <AndroidDexTool>d8</AndroidDexTool>
+        <AndroidCreatePackagePerAbi>true</AndroidCreatePackagePerAbi>
+        <AndroidLinkMode>None</AndroidLinkMode>
         <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -74,11 +76,12 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
-        <PackageReference Include="Clancey.Comet.Reload" Version="0.0.13-alpha" />
+        <PackageReference Include="Clancey.Comet.Reload" Version="0.0.15-alpha" />
         <PackageReference Include="Clancey.Comet" Version="0.2.273-beta" />
-        <PackageReference Include="AsyncAwaitBestPractices" Version="5.0.2" />
-        <PackageReference Include="Xamarin.Google.Android.Material" Version="1.2.1.1" />
-        <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.2.0.4" />
+        <PackageReference Include="AsyncAwaitBestPractices" Version="5.1.0" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.2.0.3" />
+        <PackageReference Include="Xamarin.AndroidX.Legacy.Support.Core.UI" Version="1.0.0.8" />
+        <PackageReference Include="Xamarin.Google.Android.Material" Version="1.3.0.1" />
     </ItemGroup>
     <ItemGroup>
         <Compile Include="MainActivity.cs" />
