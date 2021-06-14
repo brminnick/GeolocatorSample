@@ -3,6 +3,8 @@ using System;
 using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
 using Comet;
+using Microsoft.Maui;
+using Microsoft.Maui.Graphics;
 using Xamarin.Essentials;
 
 namespace GeoLocatorSample
@@ -16,7 +18,7 @@ namespace GeoLocatorSample
         static string ConvertDoubleToString(in double? number, in int decimalPlaces, in string appendString = "") => number is null ? "Unknown" : number.Value.ToString($"F{decimalPlaces}") + appendString;
 
         [Body]
-        View GenerateBody() => new VStack(HorizontalAlignment.Center, 2)
+        View GenerateBody() => new VStack(Comet.HorizontalAlignment.Center, 2)
         {
             new TitleText("Lat/Long"),
             new LabelText(() => $"{ConvertDoubleToString(_locationState.Value?.Latitude, 3)}, {ConvertDoubleToString(_locationState.Value?.Longitude, 3)}"),
@@ -24,7 +26,7 @@ namespace GeoLocatorSample
             new LabelText(() => $"{ConvertDoubleToString(_locationState.Value?.Altitude, 2,"m")}"),
             new TitleText("Accuracy"),
             new LabelText(() => $"{ConvertDoubleToString(_locationState.Value?.Accuracy, 0,"m")}"),
-        }.FillHorizontal();
+        }.Background(Colors.Green).FillHorizontal().FillVertical();
 
         async Task StartLocationServices()
         {
@@ -41,7 +43,7 @@ namespace GeoLocatorSample
             public TitleText(Binding<string> value) : base(value)
             {
                 this.FillHorizontal();
-                this.FontWeight(Weight.Bold);
+                this.FontWeight(FontWeight.Bold);
                 this.Margin(new Thickness(0, 15, 0, 0));
                 this.TextAlignment(TextAlignment.Center);
                 this.Color(ColorConstants.TitleTextColor);
