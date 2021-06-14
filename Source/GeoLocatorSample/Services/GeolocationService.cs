@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
-using Xamarin.Essentials;
+using Microsoft.Maui.Essentials;
 
 namespace GeoLocatorSample
 {

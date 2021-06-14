@@ -4,8 +4,7 @@ using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
 using Comet;
 using Microsoft.Maui;
-using Microsoft.Maui.Graphics;
-using Xamarin.Essentials;
+using Microsoft.Maui.Essentials;
 
 namespace GeoLocatorSample
 {
@@ -21,12 +20,12 @@ namespace GeoLocatorSample
         View GenerateBody() => new VStack(Comet.HorizontalAlignment.Center, 2)
         {
             new TitleText("Lat/Long"),
-            new LabelText(() => $"{ConvertDoubleToString(_locationState.Value?.Latitude, 3)}, {ConvertDoubleToString(_locationState.Value?.Longitude, 3)}"),
+            new LabelText(() => $"{ConvertDoubleToString(_locationState.Value?.Latitude, 3)}, {ConvertDoubleToString(_locationState.Value.Longitude, 3)}"),
             new TitleText("Altitude"),
             new LabelText(() => $"{ConvertDoubleToString(_locationState.Value?.Altitude, 2,"m")}"),
             new TitleText("Accuracy"),
             new LabelText(() => $"{ConvertDoubleToString(_locationState.Value?.Accuracy, 0,"m")}"),
-        }.Background(Colors.Green).FillHorizontal().FillVertical();
+        }.FillHorizontal().FillVertical();
 
         async Task StartLocationServices()
         {

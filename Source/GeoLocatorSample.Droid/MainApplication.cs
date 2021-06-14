@@ -11,5 +11,12 @@ namespace GeoLocatorSample.Droid
 		public MainApplication(IntPtr handle, JniHandleOwnership ownership) : base(handle, ownership)
 		{
 		}
-	}
+
+        public override void OnCreate()
+        {
+            base.OnCreate();
+
+			Microsoft.Maui.Essentials.Platform.Init(this);
+        }
+    }
 }
