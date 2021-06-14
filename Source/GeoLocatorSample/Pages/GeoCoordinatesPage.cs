@@ -17,14 +17,14 @@ namespace GeoLocatorSample
         static string ConvertDoubleToString(in double? number, in int decimalPlaces, in string appendString = "") => number is null ? "Unknown" : number.Value.ToString($"F{decimalPlaces}") + appendString;
 
         [Body]
-        View GenerateBody() => new VStack(Comet.HorizontalAlignment.Center, 2)
+        View GenerateBody() => new VStack(HorizontalAlignment.Center, 2)
         {
             new TitleText("Lat/Long"),
-            new LabelText(() => $"{ConvertDoubleToString(_locationState.Value?.Latitude, 3)}, {ConvertDoubleToString(_locationState.Value.Longitude, 3)}"),
+            new LabelText(() => $"{ConvertDoubleToString(_locationState.Value.Latitude, 3)}, {ConvertDoubleToString(_locationState.Value.Longitude, 3)}"),
             new TitleText("Altitude"),
-            new LabelText(() => $"{ConvertDoubleToString(_locationState.Value?.Altitude, 2,"m")}"),
+            new LabelText(() => $"{ConvertDoubleToString(_locationState.Value.Altitude, 2,"m")}"),
             new TitleText("Accuracy"),
-            new LabelText(() => $"{ConvertDoubleToString(_locationState.Value?.Accuracy, 0,"m")}"),
+            new LabelText(() => $"{ConvertDoubleToString(_locationState.Value.Accuracy, 0,"m")}"),
         }.FillHorizontal().FillVertical();
 
         async Task StartLocationServices()

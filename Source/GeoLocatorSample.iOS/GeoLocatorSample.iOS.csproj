@@ -9,9 +9,6 @@
         <RootNamespace>GeoLocatorSample.iOS</RootNamespace>
         <AssemblyName>GeoLocatorSample.iOS</AssemblyName>
         <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
-        <LangVersion>latest</LangVersion>
-        <Nullable>enable</Nullable>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
         <DebugSymbols>true</DebugSymbols>
