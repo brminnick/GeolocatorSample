@@ -12,8 +12,6 @@ namespace GeoLocatorSample
             Content = new StackLayout
             {
                 Spacing = 2,
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.Center,
                 Children =
                 {
                     new TitleLabel("Lat/Long"),
@@ -31,7 +29,7 @@ namespace GeoLocatorSample
                     new CenteredTextLabel()
                         .Bind(Label.TextProperty, nameof(GeoCoordinatesViewModel.AltitudeText))
                 }
-            };
+            }.Center();
 
             GeolocationService.GeolocationFailed += HandleGeolocationFailed;
         }
