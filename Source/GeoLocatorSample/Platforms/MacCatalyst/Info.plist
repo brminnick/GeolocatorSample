@@ -26,5 +26,14 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>GeolocatorSample uses the GPS to determine your location</string>
+	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
+	<array>
+	<dict>
+		<key>TemporaryFullAccuracyUsageDescription</key>
+		<string>GeolocatorSample uses the GPS to determine your location</string>
+	</dict>
+	</array>
 </dict>
 </plist>

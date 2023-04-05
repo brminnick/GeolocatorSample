@@ -43,7 +43,6 @@ public class GeoCoordinatesPage : View
     {
         public TitleText(Binding<string> value) : base(value)
         {
-            this.Background(Colors.Pink);
             this.FillHorizontal();
             this.FontWeight(FontWeight.Bold);
             this.Margin(new Thickness(0, 15, 0, 0));
@@ -56,7 +55,7 @@ public class GeoCoordinatesPage : View
     class LabelText : Text
     {
         public LabelText(Func<string> value) : base(value)
-        {this.Background(Colors.Pink);
+        {
             this.FillHorizontal();
             this.Color(ColorConstants.TextColor);
             this.VerticalTextAlignment(TextAlignment.Center);
