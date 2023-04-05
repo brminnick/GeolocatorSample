@@ -1,22 +1,30 @@
-﻿using Comet;
+#pragma warning disable IDE0051 // Remove unused private members
+using Microsoft.Maui.Devices.Sensors;
+using Microsoft.Maui.Dispatching;
 using Microsoft.Maui.Hosting;
 
-namespace GeoLocatorSample
+namespace GeoLocatorSample;
+
+public class App : CometApp
 {
-    public class App : CometApp
-    {
-        [Body]
-        protected View MainPage() => new GeoCoordinatesPage();
+	[Body]
+	View View() => new GeoCoordinatesPage(new GeolocationService(Dispatcher.GetForCurrentThread(), Geolocation.Default));
 
-        public override void Configure(IAppHostBuilder appBuilder)
-        {
-            base.Configure(appBuilder);
-
-            appBuilder.UseMauiApp<App>();
+	public static MauiApp CreateMauiApp()
+	{
+		var builder = MauiApp.CreateBuilder();
+		builder.UseCometApp<App>()
+			.ConfigureFonts(fonts => {
+				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+			});
+		//-:cnd
 #if DEBUG
-            appBuilder.EnableHotReload();
+		builder.EnableHotReload();
 #endif
-
-        }
-    }
+		//+:cnd
+		return builder.Build();
+	}
 }
+
+#pragma warning restore IDE0051 // Remove unused private members

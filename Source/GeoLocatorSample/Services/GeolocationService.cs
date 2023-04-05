@@ -1,42 +1,48 @@
-﻿using System;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
-using Microsoft.Maui.Essentials;
+using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Devices.Sensors;
+using Microsoft.Maui.Dispatching;
 
-namespace GeoLocatorSample
+namespace GeoLocatorSample;
+
+public class GeolocationService
 {
-    public static class GeolocationService
+    readonly IDispatcher _dispatcher;
+    readonly IGeolocation _geolocation;
+    readonly WeakEventManager<Exception> _geolocationFailedWeakEventManager = new();
+
+    public GeolocationService([NotNull] IDispatcher? dispatcher, IGeolocation geolocation)
     {
-        static readonly WeakEventManager<Exception> _geolocationFailedWeakEventManager = new WeakEventManager<Exception>();
-        static readonly Lazy<GeolocationRequest> _geolocationRequestHolder = new Lazy<GeolocationRequest>(() => new GeolocationRequest(GeolocationAccuracy.Best));
-
-        public static event EventHandler<Exception> GeolocationFailed
-        {
-            add => _geolocationFailedWeakEventManager.AddEventHandler(value);
-            remove => _geolocationFailedWeakEventManager.RemoveEventHandler(value);
-        }
-
-        static GeolocationRequest GeolocationRequest => _geolocationRequestHolder.Value;
- 
-        public static async Task<Location> GetLocation()
-        {
-            try
-            {
-                var location = await Geolocation.GetLocationAsync(GeolocationRequest).ConfigureAwait(false);
-                return location;
-            }
-            catch (PermissionException e) when (e.Message.ToLower().Contains("main thread"))
-            {
-                var location = await MainThread.InvokeOnMainThreadAsync(() => Geolocation.GetLocationAsync(GeolocationRequest)).ConfigureAwait(false);
-                return location;
-            }
-            catch (Exception e)
-            {
-                OnGeolocationFailed(e);
-                throw;
-            }
-        }
-
-        static void OnGeolocationFailed(Exception exception) => _geolocationFailedWeakEventManager.RaiseEvent(null, exception, nameof(GeolocationFailed));
+        ArgumentNullException.ThrowIfNull(dispatcher);
+        (_dispatcher, _geolocation) = (dispatcher, geolocation);
     }
+
+    public event EventHandler<Exception> GeolocationFailed
+    {
+        add => _geolocationFailedWeakEventManager.AddEventHandler(value);
+        remove => _geolocationFailedWeakEventManager.RemoveEventHandler(value);
+    }
+
+    public async Task<Location> GetLocation()
+    {
+        try
+        {
+            var location = await _geolocation.GetLocationAsync(new(GeolocationAccuracy.Best)).ConfigureAwait(false);
+            return location ?? throw new InvalidOperationException("Location Cannot Be Null");
+        }
+        catch (PermissionException e) when (e.Message.ToLower().Contains("main thread"))
+        {
+            var location = await _dispatcher.DispatchAsync(() => _geolocation.GetLocationAsync(new(GeolocationAccuracy.Best))).ConfigureAwait(false);
+            return location ?? throw new InvalidOperationException("Location Cannot Be Null");
+        }
+        catch (Exception e)
+        {
+            OnGeolocationFailed(e);
+            throw;
+        }
+    }
+
+    void OnGeolocationFailed(Exception exception) => _geolocationFailedWeakEventManager.RaiseEvent(null, exception, nameof(GeolocationFailed));
 }
